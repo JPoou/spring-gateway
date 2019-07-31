@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: app-turbine
+
+server:
+  port: 8787
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8888/eureka
+  instance:
+    preferIpAddress: true
+
+turbine:
+  aggregator:
+    clusterConfig: API-GATEWAY
+  appConfig: API-GATEWAY
