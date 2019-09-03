@@ -16,7 +16,7 @@ import javax.persistence.NamedQuery;
  *
  * @author mmendez
  */
-@Entity
+    @Entity
 @NamedQueries({
         @NamedQuery(name = "Demobook.findAll", query = "SELECT d FROM Demobook d")})
 public class Demobook implements Serializable {

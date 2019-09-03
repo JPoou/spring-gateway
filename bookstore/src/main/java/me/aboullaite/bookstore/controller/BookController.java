@@ -26,11 +26,13 @@ public class BookController {
 
     @GetMapping("")
     public ResponseEntity<List<Book>> getAllBooks(){
+
         return ResponseEntity.ok(bookService.getBooks());
     }
 
     @GetMapping("demo")
     public ResponseEntity<List<Demobook>> getAllDemoBooks(){
+
         return ResponseEntity.ok((List)repositorio.findAll());
     }
 

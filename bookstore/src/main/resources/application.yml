@@ -23,15 +23,16 @@ spring:
       max-lifetime: 2400000
       connection-timeout: 60000
       pool-name: mysqlHikariCP
+      minimum-idle: 10
 
 
 
 
 
-#eureka:
-#  client:
-#    serviceUrl:
-#      defaultZone: http://localhost:8888/eureka
-#  instance:
-#    preferIpAddress: true
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8888/eureka
+  instance:
+    preferIpAddress: true
 

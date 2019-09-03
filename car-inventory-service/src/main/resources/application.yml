@@ -1,0 +1,54 @@
+server:
+  port: 8010
+
+spring:
+  application:
+    name: car-inventory
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    deserialization:
+      # deals with single and multi-valued JWT claims
+      accept-single-value-as-array: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/auth/realms/SpringBootKeycloak
+
+#eureka:
+#  client:
+#    serviceUrl:
+#      defaultZone: http://localhost:8888/eureka
+#  instance:
+#    preferIpAddress: true
+
+
+
+#security:
+#  oauth2:
+#    client:
+#      client-id: appclient
+#      client-secret: appclient@123
+#    resource:
+#      id: carInventory
+#      token-info-uri: http://localhost:9050/auth/oauth/check_token7
+#    client:
+#      client-id: login-app
+#      client-secret: 9b7c6a74-7a1a-4558-acc7-e9a51b8450ac
+#    resource:
+#      id: login-app
+#      token-info-uri: http://localhost:8080/auth/realms/SpringBootKeycloak/protocol/openid-connect/token/introspect
+#      user-info-uri: http://localhost:8080/auth/realms/SpringBootKeycloak/protocol/openid-connect/userinfo
+#      jwt:
+#        key-value: -----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwP2t/fQIehosDY6QdDGgJpkxuyUFZXCZgp1IjF8X4LQ5l37+5D7jCJlU4IjX5oHjT4he+Ok6i04XknRb0YNUgkaciONfC85PT9Caqi85F1F6OMtFl7Tre5vds36QPVyJlulcJYURy92MQPVYHIeO0a1GRbl2JbnNRd7Q+35vC0MsOz8oOLNBm9lY5feiuvTITWD/FBUJaiYF5mWM7SNdBAUIav87bBZ/HkOT+u55vLgYh8NRqJE83GRfve58ZJnotNV/8P+24EluOARAVzQXomb7WPf6oJ3Fm0YEDXxrQwnwQ1FALPLanv59GuMkpdtKY1+/1/NeHgghPFmOzGrGaQIDAQAB-----END PUBLIC KEY-----
+
+
+
+logging:
+  level:
+    root: DEBUG
+    org.springframework.web: DEBUG
+    org.springframework.security: DEBUG
+    org.springframework.security.oauth2: DEBUG
+#    org.springframework.cloud.gateway: DEBUG

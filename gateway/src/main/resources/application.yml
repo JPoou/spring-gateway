@@ -1,5 +1,9 @@
+server:
+  port: 8887
+
 hystrix.command.fallbackcmd.execution.isolation.thread.timeoutInMilliseconds: 2000
 hystrix.command.default.execution.isolation.strategy: THREAD
+
 
 spring:
   application:
@@ -41,7 +45,7 @@ spring:
 
         - id: car-inventory
           #uri: lb://car-inventory
-          uri: http://localhost:8010/api/cars/
+          uri: http://localhost:8010/
           predicates:
             - Path=/api/cars/**
           filters:
@@ -50,8 +54,25 @@ spring:
                 key-resolver: '#{@userKeyResolver}'
                 redis-rate-limiter.replenishRate: 2
                 redis-rate-limiter.burstCapacity: 2
+            # - TokenRelay=
+            # - RewritePath=/api/(?<cars>.*), /viewCars
+            - RewritePath=/api/cars(?<service>.*), /$\{service}
             - TokenRelay=
-            - RewritePath=/api/(?<cars>.*), /$\{cars}
+
+#        - id: persona-react
+#            #uri: lb://car-inventory
+#            uri: http://localhost:8585/
+#            predicates:
+#              - Path=/api/person/**
+#            filters:
+#              - name: RequestRateLimiter
+#                args:
+#                  key-resolver: '#{@userKeyResolver}'
+#                  redis-rate-limiter.replenishRate: 2
+#                  redis-rate-limiter.burstCapacity: 2
+#              - TokenRelay=
+#              # - RewritePath=/api/(?<cars>.*), /viewCars
+#              - RewritePath=/api/person(?<service>.*), /persona/$\{service}
 
   redis:
     host: 172.17.0.2
@@ -71,30 +92,37 @@ spring:
         registration:
           login-client:
             provider: uaa
-            #client-id: appclient
-            #client-secret: appclient@123
-            client-id: kelly
-            client-secret: kelly@123
+#            client-id: appclient
+#            client-secret: appclient@123
+            client-id: login-app
+            client-secret: 9b7c6a74-7a1a-4558-acc7-e9a51b8450ac
+            #client-id: kelly
+            #client-secret: kelly@123
             authorization-grant-type: authorization_code
             redirect-uri-template: "{baseUrl}/login/oauth2/code/{registrationId}"
+            #redirect-uri-template: "http://www.example.com"
             scope: read,write
         provider:
           uaa:
-            authorization-uri: http://localhost:9050/oauth/authorize
-            token-uri: http://localhost:9050/oauth/token
-            user-info-uri: http://localhost:9050/userinfo
-            user-name-attribute: sub
-            jwk-set-uri: http://localhost:9050/token_keys
+            authorization-uri: http://localhost:8080/auth/realms/SpringBootKeycloak/protocol/openid-connect/auth
+            token-uri: http://localhost:8080/auth/realms/SpringBootKeycloak/protocol/openid-connect/token
+            user-info-uri: http://localhost:8080/auth/realms/SpringBootKeycloak/protocol/openid-connect/userinfo
+            user-name-attribute: preferred_username
+            jwk-set-uri: http://localhost:9050/auth/token_keys
+#            authorization-uri: http://localhost:9050/auth/oauth/authorize
+#            token-uri: http://localhost:9050/auth/oauth/token
+#            user-info-uri: http://localhost:9050/auth/user/me
+#            user-name-attribute: name
+#            jwk-set-uri: http://localhost:9050/auth/token_keys
 
-server:
-  port: 8887
 
-#eureka:
-#  client:
-#    serviceUrl:
-#      defaultZone: http://localhost:8888/eureka
-#  instance:
-#    preferIpAddress: true
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8888/eureka
+  instance:
+    preferIpAddress: true
 
 management:
   endpoints:

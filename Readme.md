@@ -1,6 +1,8 @@
 ### Spring cloud gateway example
 
 This is a small example using Spring cloud gateway and its features! This example contains:
+
++ Car Inventory microservice: 8010
 + Bookstore microservice: port 8089
 + MoviesStore microservice: port 8090
 + API Gateway (Srpring Cloud gateway): port 8087
