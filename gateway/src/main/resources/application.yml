@@ -59,20 +59,35 @@ spring:
             - RewritePath=/api/cars(?<service>.*), /$\{service}
             - TokenRelay=
 
-#        - id: persona-react
-#            #uri: lb://car-inventory
-#            uri: http://localhost:8585/
-#            predicates:
-#              - Path=/api/person/**
-#            filters:
-#              - name: RequestRateLimiter
-#                args:
-#                  key-resolver: '#{@userKeyResolver}'
-#                  redis-rate-limiter.replenishRate: 2
-#                  redis-rate-limiter.burstCapacity: 2
-#              - TokenRelay=
-#              # - RewritePath=/api/(?<cars>.*), /viewCars
-#              - RewritePath=/api/person(?<service>.*), /persona/$\{service}
+
+        - id: web-app
+          uri: http://localhost:3000/
+          predicates:
+            - Path=/nodejs/**
+          filters:
+            - name: RequestRateLimiter
+              args:
+                key-resolver: '#{@userKeyResolver}'
+                redis-rate-limiter.replenishRate: 2
+                redis-rate-limiter.burstCapacity: 2
+            - RewritePath=/nodejs(?<service>.*), /$\{service}
+            - TokenRelay=
+
+
+  #        - id: persona-react
+  #            #uri: lb://car-inventory
+  #            uri: http://localhost:8585/
+  #            predicates:
+  #              - Path=/api/person/**
+  #            filters:
+  #              - name: RequestRateLimiter
+  #                args:
+  #                  key-resolver: '#{@userKeyResolver}'
+  #                  redis-rate-limiter.replenishRate: 2
+  #                  redis-rate-limiter.burstCapacity: 2
+  #              - TokenRelay=
+  #              # - RewritePath=/api/(?<cars>.*), /viewCars
+  #              - RewritePath=/api/person(?<service>.*), /persona/$\{service}
 
   redis:
     host: 172.17.0.2
@@ -92,15 +107,10 @@ spring:
         registration:
           login-client:
             provider: uaa
-#            client-id: appclient
-#            client-secret: appclient@123
             client-id: login-app
             client-secret: 9b7c6a74-7a1a-4558-acc7-e9a51b8450ac
-            #client-id: kelly
-            #client-secret: kelly@123
             authorization-grant-type: authorization_code
             redirect-uri-template: "{baseUrl}/login/oauth2/code/{registrationId}"
-            #redirect-uri-template: "http://www.example.com"
             scope: read,write
         provider:
           uaa:
@@ -109,11 +119,7 @@ spring:
             user-info-uri: http://localhost:8080/auth/realms/SpringBootKeycloak/protocol/openid-connect/userinfo
             user-name-attribute: preferred_username
             jwk-set-uri: http://localhost:9050/auth/token_keys
-#            authorization-uri: http://localhost:9050/auth/oauth/authorize
-#            token-uri: http://localhost:9050/auth/oauth/token
-#            user-info-uri: http://localhost:9050/auth/user/me
-#            user-name-attribute: name
-#            jwk-set-uri: http://localhost:9050/auth/token_keys
+
 
 
 

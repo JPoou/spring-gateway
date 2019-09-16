@@ -5,6 +5,7 @@ import me.aboullaite.bookstore.model.Demobook;
 import me.aboullaite.bookstore.repository.DemobookRepository;
 import me.aboullaite.bookstore.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,6 +32,7 @@ public class BookController {
     }
 
     @GetMapping("demo")
+    //@Cacheable("demoBook")
     public ResponseEntity<List<Demobook>> getAllDemoBooks(){
 
         return ResponseEntity.ok((List)repositorio.findAll());

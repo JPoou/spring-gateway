@@ -1,24 +1,20 @@
 package me.aboullaite.bookstore.model;
 
-import javax.persistence.Basic;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Cache;
+//import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+import javax.persistence.*;
 import java.io.Serializable;
-import javax.persistence.Basic;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 
 /**
- *
  * @author mmendez
  */
-    @Entity
+@Entity
 @NamedQueries({
         @NamedQuery(name = "Demobook.findAll", query = "SELECT d FROM Demobook d")})
+@Cacheable
+@Cache(region = "demoBook", usage = CacheConcurrencyStrategy.READ_ONLY)
 public class Demobook implements Serializable {
 
     private static final long serialVersionUID = 1L;
