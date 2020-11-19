@@ -11,37 +11,22 @@ spring:
   cloud:
     gateway:
       routes:
-
-        - id: book-store
-          uri: lb://book-store
+        - id: notes-store
+          uri: lb://notes-store
           predicates:
-            - Path=/api/books/**
+            - Path=/api/v1/**
           filters:
             - name: RequestRateLimiter
               args:
                 key-resolver: '#{@userKeyResolver}'
                 redis-rate-limiter.replenishRate: 2
                 redis-rate-limiter.burstCapacity: 2
-            - RewritePath=/api/(?<books>.*), /$\{books}
+            - RewritePath=/api/(?<service>.*), /$\{service}
+            - TokenRelay=
             - name: Hystrix
               args:
                 name: booksFallbackCommand
                 fallbackUri: forward:/fallback/books
-
-
-        - id: movie-store
-          uri: lb://movie-store
-          predicates:
-            - Path=/api/movies/**
-          filters:
-            - name: RequestRateLimiter
-              args:
-                key-resolver: '#{@userKeyResolver}'
-                redis-rate-limiter.replenishRate: 2
-                redis-rate-limiter.burstCapacity: 2
-            - RewritePath=/api/(?<movies>.*), /$\{movies}
-            - AddResponseHeader=X-Some-Header, aboullaite.me
-
 
         - id: car-inventory
           #uri: lb://car-inventory
@@ -59,44 +44,6 @@ spring:
             - RewritePath=/api/cars(?<service>.*), /$\{service}
             - TokenRelay=
 
-
-        - id: web-app
-          uri: http://localhost:3000/
-          predicates:
-            - Path=/nodejs/**
-          filters:
-            - name: RequestRateLimiter
-              args:
-                key-resolver: '#{@userKeyResolver}'
-                redis-rate-limiter.replenishRate: 2
-                redis-rate-limiter.burstCapacity: 2
-            - RewritePath=/nodejs(?<service>.*), /$\{service}
-            - TokenRelay=
-
-
-  #        - id: persona-react
-  #            #uri: lb://car-inventory
-  #            uri: http://localhost:8585/
-  #            predicates:
-  #              - Path=/api/person/**
-  #            filters:
-  #              - name: RequestRateLimiter
-  #                args:
-  #                  key-resolver: '#{@userKeyResolver}'
-  #                  redis-rate-limiter.replenishRate: 2
-  #                  redis-rate-limiter.burstCapacity: 2
-  #              - TokenRelay=
-  #              # - RewritePath=/api/(?<cars>.*), /viewCars
-  #              - RewritePath=/api/person(?<service>.*), /persona/$\{service}
-
-  redis:
-    host: 172.17.0.2
-    port: 6379
-    jedis:
-      pool:
-        max-active: 100
-        max-idle: 100
-
   autoconfigure:
     # TODO: remove when fixed https://github.com/spring-projects/spring-security/issues/6314
     exclude: org.springframework.boot.actuate.autoconfigure.security.reactive.ReactiveManagementWebSecurityAutoConfiguration
@@ -107,16 +54,16 @@ spring:
         registration:
           login-client:
             provider: uaa
-            client-id: login-app
-            client-secret: 9b7c6a74-7a1a-4558-acc7-e9a51b8450ac
+            client-id: notes-app
+            client-secret: f78b4d3d-eaf3-4076-940b-21139819c3de
             authorization-grant-type: authorization_code
             redirect-uri-template: "{baseUrl}/login/oauth2/code/{registrationId}"
             scope: read,write
         provider:
           uaa:
-            authorization-uri: http://localhost:8080/auth/realms/SpringBootKeycloak/protocol/openid-connect/auth
-            token-uri: http://localhost:8080/auth/realms/SpringBootKeycloak/protocol/openid-connect/token
-            user-info-uri: http://localhost:8080/auth/realms/SpringBootKeycloak/protocol/openid-connect/userinfo
+            authorization-uri: http://localhost:8080/auth/realms/notes/protocol/openid-connect/auth
+            token-uri: http://localhost:8080/auth/realms/notes/protocol/openid-connect/token
+            user-info-uri: http://localhost:8080/auth/realms/notes/protocol/openid-connect/userinfo
             user-name-attribute: preferred_username
             jwk-set-uri: http://localhost:9050/auth/token_keys
 

@@ -17,7 +17,7 @@ public class InventoryController {
 
 	@GetMapping("viewCars")
 	//@PreAuthorize("hasAuthority('INVENTORY_VIEW')")
-	@PreAuthorize("hasAuthority('ROLE_USER')")
+	//@PreAuthorize("hasAuthority('ROLE_USER')")
 	public Set<String> viewCars() {
 
 		return cars;

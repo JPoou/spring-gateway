@@ -8,11 +8,6 @@
     <name>Spring Cloud Gateway example</name>
     <modules>
         <module>gateway</module>
-        <module>discovery</module>
-        <module>moviestore</module>
-        <module>bookstore</module>
         <module>car-inventory-service</module>
-        <module>hystrix-dashboard</module>
-        <module>turbine</module>
     </modules>
 </project>

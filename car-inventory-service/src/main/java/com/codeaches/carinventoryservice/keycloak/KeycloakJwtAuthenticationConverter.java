@@ -33,7 +33,7 @@ public class KeycloakJwtAuthenticationConverter implements Converter<Jwt, Abstra
 
         Collection<GrantedAuthority> authorities = mapKeycloakRolesToAuthorities( //
                 getRealmRolesFrom(jwt), //
-                getClientRolesFrom(jwt, "login-app") //
+                getClientRolesFrom(jwt, "notes-app") //
         );
 
         JwtAuthenticationToken jwtAuth = (JwtAuthenticationToken) jwtAuthenticationConverter.convert(jwt);

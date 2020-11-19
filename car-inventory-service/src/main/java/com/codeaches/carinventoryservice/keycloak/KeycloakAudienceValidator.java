@@ -20,7 +20,7 @@ class KeycloakAudienceValidator implements OAuth2TokenValidator<Jwt> {
     public OAuth2TokenValidatorResult validate(Jwt jwt) {
 
 
-        if (!jwt.getAudience().contains("login-app")) {
+        if (!jwt.getAudience().contains("notes-app")) {
             return OAuth2TokenValidatorResult.failure(error);
         }
 
